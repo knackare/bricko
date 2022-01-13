@@ -3,7 +3,10 @@ package com.example.bricko;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,6 +15,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Stream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -80,6 +84,21 @@ public class MainActivity extends AppCompatActivity {
         shuffle();
         addListener();
         sound_on = true;
+        LogIndex();
+    }
+
+    private void LogIndex() {
+        Log.v("INDEX", "----");
+
+        for (Integer i : index) {
+            Log.v("INDEX", i.toString());
+        }
+
+        Log.v("INDEX", "----");
+
+        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        //Log.v("INDEX", String.join(", ", Stream.of(index).map(i -> i.toString()).toArray(String[]::new)));
+        //}
     }
 
     //Aktivierar en klass som ger alla Squares en onClick funktion.
@@ -212,6 +231,8 @@ public class MainActivity extends AppCompatActivity {
         blank.getView().setImageResource(current_tag);
         blank.getView().setTag(current_tag);
         blank.setIndex(curr_index);
+
+        LogIndex();
     }
 
 
