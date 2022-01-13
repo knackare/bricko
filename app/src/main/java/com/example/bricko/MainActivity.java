@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Arrays;
@@ -26,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.puzzle_01, R.drawable.puzzle_02, R.drawable.puzzle_03, R.drawable.puzzle_04,
             R.drawable.puzzle_05, R.drawable.puzzle_06, R.drawable.puzzle_07, R.drawable.puzzle_08,
             R.drawable.puzzle_09, R.drawable.puzzle_10, R.drawable.puzzle_11, R.drawable.puzzle_12,
-            R.drawable.puzzle_13, R.drawable.puzzle_14, R.drawable.puzzle_15, R.drawable.puzzle_16};
+            R.drawable.puzzle_13, R.drawable.puzzle_14, R.drawable.puzzle_15, R.drawable.blank};
     private final Integer[] index = {
             0,  1,  2,  3,
             4,  5,  6,  7,
