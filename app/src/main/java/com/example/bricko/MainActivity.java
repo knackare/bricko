@@ -110,9 +110,9 @@ public class MainActivity extends AppCompatActivity {
 
     //Slumpar runt alla index värden samt ger alla Square eller tiles ett start tag värde.
     private void shuffle() {
-        //List<Integer> ind = Arrays.asList(index);
-        //Collections.shuffle(ind);
-        //ind.toArray(index);
+        List<Integer> ind = Arrays.asList(index);
+        Collections.shuffle(ind);
+        ind.toArray(index);
 
         for (int i = 0; i < SQUARE_COUNT; i++) {
             views[i].getView().setImageResource(images[index[i]]);
