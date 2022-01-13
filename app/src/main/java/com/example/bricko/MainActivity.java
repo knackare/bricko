@@ -49,12 +49,12 @@ public class MainActivity extends AppCompatActivity {
     public void playSound(Boolean play){
         if(sound_on){
             if(play){
-                mediaPlayer = MediaPlayer.create(this, R.raw.f_swipe);
+                //mediaPlayer = MediaPlayer.create(this, R.raw.f_swipe);
             }
             if(!play){
-                mediaPlayer = MediaPlayer.create(this, R.raw.f_gover);
+                //mediaPlayer = MediaPlayer.create(this, R.raw.f_gover);
             }
-            mediaPlayer.start();
+            //mediaPlayer.start();
         }
         mediaPlayer = null;
     }
