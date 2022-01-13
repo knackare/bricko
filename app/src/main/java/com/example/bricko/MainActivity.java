@@ -115,18 +115,23 @@ public class MainActivity extends AppCompatActivity {
         ind.toArray(index);
 
         for (int i = 0; i < SQUARE_COUNT; i++) {
-            views[i].getView().setImageResource(images[index[i]]);
-            views[i].getView().setTag(images[index[i]]);
-            views[i].setIndex(index[i]);
-            views[i].setTag(index[i]);
+            Integer index = this.index[i];
+            views[i].getView().setImageResource(images[index]);
+            views[i].getView().setTag(images[index]);
+            views[i].setIndex(i);
+            views[i].setTag(index);
             views[i].getView().setSoundEffectsEnabled(false);
         }
     }
 
     private Square getBlank() {
         for (Square view : views) {
-            view.getView().getTag();
-            return view;
+//            if ((int)view.getTag() == 15) {
+//                return view;
+//            }
+            if ((int)view.getView().getTag() == R.drawable.blank) {
+                return view;
+            }
         }
         return null;
     }
@@ -140,9 +145,10 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
-    private boolean switchable(int c, int b) {
+    private boolean switchable(Square c, Square b) {
+        Log.v("SWITCH", "current:" + c.getIndex() + ": " + c.getTag() + ", blank:" + b.getIndex() + ": " + b.getTag());
         int[] valid_blanks;
-        switch(c) {
+        switch(c.getIndex()) {
             case 0:
                 valid_blanks = new int[]{1,4};
                 break;
@@ -195,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
                 throw new IllegalStateException("Unexpected value: " + c);
         }
         for (int valid_blank : valid_blanks) {
-            if (valid_blank == b) {
+            if (views[valid_blank].getTag() == b.getTag()) {
                 playSound(true);
                 return true;
             }
@@ -211,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean allInPlace() {
         int correct_order = 0;
         for(int i = 0; i < 4; i++){
-            if(views[i].getIndex() == i){
+            if(views[i].getTag() == i){
                 correct_order++;
             }
         }
@@ -223,16 +229,18 @@ public class MainActivity extends AppCompatActivity {
         int blank_tag = (int) blank.getView().getTag();
         int curr_index = current.getIndex();
         int bl_index = blank.getIndex();
+        int curr_tag = current.getTag();
+        int bl_tag = blank.getTag();
 
         current.getView().setImageResource(blank_tag);
         current.getView().setTag(blank_tag);
         current.setIndex(bl_index);
+        //current.setTag(bl_tag);
 
         blank.getView().setImageResource(current_tag);
         blank.getView().setTag(current_tag);
         blank.setIndex(curr_index);
-
-        LogIndex();
+        //blank.setTag(curr_tag);
     }
 
 
@@ -245,13 +253,15 @@ public class MainActivity extends AppCompatActivity {
             int curr = (int) caller.getTag();
             current = getSquare(curr);
             blank = getBlank();
-            if (switchable(current.getTag(), blank.getTag()))
+
+            if (switchable(current, blank)) {
                 switchImages();
+            }
+
             if(allInPlace()) {
                 System.out.println("You won!");
                 sound_on = false;
             }
-
         }
     }
 }
