@@ -112,11 +112,11 @@ public class MainActivity extends AppCompatActivity {
         ind.toArray(index);
 
         for (int i = 0; i < SQUARE_COUNT; i++) {
-            Integer number = this.index[i];
+            Integer number = this.index[i]; // "startnummer"
             views[i].getView().setImageResource(images[number]);
             views[i].getView().setTag(images[number]);
-            views[i].setIndex(i);
-            views[i].setTag(number);
+            views[i].setIndex(i); // index i matrisen
+            views[i].setTag(number); // återanvänd startnummer som unikt id
             views[i].getView().setSoundEffectsEnabled(false);
         }
     }
