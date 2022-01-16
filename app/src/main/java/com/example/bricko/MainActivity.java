@@ -4,8 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Arrays;
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.puzzle_01, R.drawable.puzzle_02, R.drawable.puzzle_03, R.drawable.puzzle_04,
             R.drawable.puzzle_05, R.drawable.puzzle_06, R.drawable.puzzle_07, R.drawable.puzzle_08,
             R.drawable.puzzle_09, R.drawable.puzzle_10, R.drawable.puzzle_11, R.drawable.puzzle_12,
-            R.drawable.puzzle_13, R.drawable.puzzle_14, R.drawable.puzzle_15, R.drawable.puzzle_16};
+            R.drawable.puzzle_13, R.drawable.puzzle_14, R.drawable.puzzle_15, R.drawable.blank};
     private final Integer[] index = {
             0,  1,  2,  3,
             4,  5,  6,  7,
@@ -81,6 +81,21 @@ public class MainActivity extends AppCompatActivity {
         shuffle();
         addListener();
         sound_on = true;
+        LogNumbersOrder();
+    }
+
+    private void LogNumbersOrder() {
+        Log.v("INDEX", "----");
+
+        for (Integer i : index) {
+            Log.v("INDEX", i.toString());
+        }
+
+        Log.v("INDEX", "----");
+
+        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        //Log.v("INDEX", String.join(", ", Stream.of(index).map(i -> i.toString()).toArray(String[]::new)));
+        //}
     }
 
     //Aktivierar en klass som ger alla Squares en onClick funktion.
@@ -97,34 +112,51 @@ public class MainActivity extends AppCompatActivity {
         ind.toArray(index);
 
         for (int i = 0; i < SQUARE_COUNT; i++) {
-            views[i].getView().setImageResource(images[index[i]]);
-            views[i].getView().setTag(images[index[i]]);
-            views[i].setIndex(index[i]);
-            views[i].setTag(index[i]);
+            Integer number = this.index[i]; // "startnummer"
+            views[i].getView().setImageResource(images[number]);
+            views[i].getView().setTag(images[number]);
+            views[i].setIndex(i); // index i matrisen
+            views[i].setTag(number); // återanvänd startnummer som unikt id
             views[i].getView().setSoundEffectsEnabled(false);
         }
     }
 
     private Square getBlank() {
+        Log.v("getBlank", String.format("Looking for %s", R.drawable.blank));
         for (Square view : views) {
-            view.getView().getTag();
-            return view;
-        }
-        return null;
-    }
-
-    private Square getSquare(int tag) {
-        for (Square view : views) {
-            if ((int) view.getView().getTag() == tag) {
+            if ((int)view.getView().getTag() == R.drawable.blank) {
+                Log.v("getBlank", String.format("Found %s", view.getView().getTag()));
                 return view;
             }
         }
         return null;
     }
 
-    private boolean switchable(int c, int b) {
+    private Square getSquare(int tag) {
+        Log.v("getSquare", String.valueOf(tag));
+        for (Square view : views) {
+            if ((int) view.getView().getTag() == tag) {
+                Log.v("getSquare", String.format("Found %s", view.getView().getTag()));
+                return view;
+            }
+        }
+        return null;
+    }
+
+    private Square getSquareAtIndex(int index) {
+        for (Square view : views) {
+            if (view.getIndex() == index) {
+                return view;
+            }
+        }
+        return null;
+    }
+
+    private boolean switchable() {
+        final int current_index = current.getIndex();
+        LogCurrentAndBlank("switchable", current_index);
         int[] valid_blanks;
-        switch(c) {
+        switch(current_index) {
             case 0:
                 valid_blanks = new int[]{1,4};
                 break;
@@ -174,10 +206,10 @@ public class MainActivity extends AppCompatActivity {
                 valid_blanks = new int[]{11,14};
                 break;
             default:
-                throw new IllegalStateException("Unexpected value: " + c);
+                throw new IllegalStateException("Unexpected value");
         }
         for (int valid_blank : valid_blanks) {
-            if (valid_blank == b) {
+            if (getSquareAtIndex(valid_blank).getTag() == blank.getTag()) {
                 playSound(true);
                 return true;
             }
@@ -202,20 +234,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void switchImages() {
         int current_tag = (int) current.getView().getTag();
-        int blank_tag = (int) blank.getView().getTag();
-        int curr_index = current.getIndex();
-        int bl_index = blank.getIndex();
+        int new_blank_index = current.getIndex();
+        int move_to_index = blank.getIndex();
 
-        current.getView().setImageResource(blank_tag);
-        current.getView().setTag(blank_tag);
-        current.setIndex(bl_index);
+        current.getView().setImageResource(R.drawable.blank);
+        current.getView().setTag(R.drawable.blank);
+        current.setIndex(new_blank_index);
 
         blank.getView().setImageResource(current_tag);
         blank.getView().setTag(current_tag);
-        blank.setIndex(curr_index);
+        blank.setIndex(move_to_index);
+
+        LogCurrentAndBlank("switchImages", move_to_index);
     }
 
-
+    private void LogCurrentAndBlank(String origin, int currentIndex) {
+        Log.v(origin, "current:" + currentIndex + ", blank:" + getBlank().getIndex());
+    }
 
     //En klass inom en klass som gör det möjligt för denna klass att enkelt använda MainActivites alla
     //värden som current och blank, samt view arrayn. Om det hade varit en separat klass skulle man
@@ -225,13 +260,15 @@ public class MainActivity extends AppCompatActivity {
             int curr = (int) caller.getTag();
             current = getSquare(curr);
             blank = getBlank();
-            if (switchable(current.getTag(), blank.getTag()))
+
+            if (switchable()) {
                 switchImages();
+            }
+
             if(allInPlace()) {
                 System.out.println("You won!");
                 sound_on = false;
             }
-
         }
     }
 }
