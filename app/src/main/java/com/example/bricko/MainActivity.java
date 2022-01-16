@@ -143,6 +143,15 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
+    private Square getSquareAtIndex(int index) {
+        for (Square view : views) {
+            if (view.getIndex() == index) {
+                return view;
+            }
+        }
+        return null;
+    }
+
     private boolean switchable() {
         LogCurrentAndBlank("switchable");
         int[] valid_blanks;
@@ -199,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
                 throw new IllegalStateException("Unexpected value");
         }
         for (int valid_blank : valid_blanks) {
-            if (views[valid_blank].getTag() == blank.getTag()) {
+            if (getSquareAtIndex(valid_blank).getTag() == blank.getTag()) {
                 playSound(true);
                 return true;
             }
