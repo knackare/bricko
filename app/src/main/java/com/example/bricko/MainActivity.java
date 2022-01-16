@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean switchable(Square c, Square b) {
-        Log.v("SWITCH", "current:" + c.getIndex() + ": " + c.getTag() + ", blank:" + b.getIndex() + ": " + b.getTag());
+        LogCurrentAndBlank("switchable");
         int[] valid_blanks;
         switch(c.getIndex()) {
             case 0:
@@ -235,9 +235,13 @@ public class MainActivity extends AppCompatActivity {
         blank.getView().setTag(current_tag);
         blank.setIndex(curr_index);
         //blank.setTag(curr_tag);
+
+        LogCurrentAndBlank("switchImages");
     }
 
-
+    private void LogCurrentAndBlank(String origin) {
+        Log.v(origin, "current:" + current.getIndex() + ", blank:" + blank.getIndex());
+    }
 
     //En klass inom en klass som gör det möjligt för denna klass att enkelt använda MainActivites alla
     //värden som current och blank, samt view arrayn. Om det hade varit en separat klass skulle man
