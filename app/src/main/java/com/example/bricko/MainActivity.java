@@ -3,9 +3,7 @@ package com.example.bricko;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -15,7 +13,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Stream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -84,10 +81,10 @@ public class MainActivity extends AppCompatActivity {
         shuffle();
         addListener();
         sound_on = true;
-        LogIndex();
+        LogNumbersOrder();
     }
 
-    private void LogIndex() {
+    private void LogNumbersOrder() {
         Log.v("INDEX", "----");
 
         for (Integer i : index) {
@@ -115,11 +112,11 @@ public class MainActivity extends AppCompatActivity {
         ind.toArray(index);
 
         for (int i = 0; i < SQUARE_COUNT; i++) {
-            Integer index = this.index[i];
-            views[i].getView().setImageResource(images[index]);
-            views[i].getView().setTag(images[index]);
+            Integer number = this.index[i];
+            views[i].getView().setImageResource(images[number]);
+            views[i].getView().setTag(images[number]);
             views[i].setIndex(i);
-            views[i].setTag(index);
+            views[i].setTag(number);
             views[i].getView().setSoundEffectsEnabled(false);
         }
     }
