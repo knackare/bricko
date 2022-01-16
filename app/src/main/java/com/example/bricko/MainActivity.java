@@ -218,18 +218,14 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-
-
-    //Matchar och ser om indexOrdern är den samma som i vilket växer med 1 varje loop, om det är så ökar ett värde och om detta värde matchar ett annat värde
-    //antigen SQUARE_COUNT eller 4 som i detta då spelet enkelt ska kunna testas.
     private boolean allInPlace() {
         int correct_order = 0;
-        for(int i = 0; i < 4; i++){
-            if(views[i].getIndex() == i){
+        for(int i = 0; i < SQUARE_COUNT; i++){
+            if((int)views[i].getView().getTag() == images[i]){
                 correct_order++;
             }
         }
-        return correct_order == 4;
+        return correct_order == SQUARE_COUNT;
     }
 
     private void switchImages() {
