@@ -143,10 +143,10 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
-    private boolean switchable(Square c, Square b) {
+    private boolean switchable() {
         LogCurrentAndBlank("switchable");
         int[] valid_blanks;
-        switch(c.getIndex()) {
+        switch(current.getIndex()) {
             case 0:
                 valid_blanks = new int[]{1,4};
                 break;
@@ -196,10 +196,10 @@ public class MainActivity extends AppCompatActivity {
                 valid_blanks = new int[]{11,14};
                 break;
             default:
-                throw new IllegalStateException("Unexpected value: " + c);
+                throw new IllegalStateException("Unexpected value");
         }
         for (int valid_blank : valid_blanks) {
-            if (views[valid_blank].getTag() == b.getTag()) {
+            if (views[valid_blank].getTag() == blank.getTag()) {
                 playSound(true);
                 return true;
             }
@@ -256,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
             current = getSquare(curr);
             blank = getBlank();
 
-            if (switchable(current, blank)) {
+            if (switchable()) {
                 switchImages();
             }
 
