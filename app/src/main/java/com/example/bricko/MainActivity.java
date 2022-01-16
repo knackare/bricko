@@ -153,9 +153,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean switchable() {
-        LogCurrentAndBlank("switchable");
+        final int current_index = current.getIndex();
+        LogCurrentAndBlank("switchable", current_index);
         int[] valid_blanks;
-        switch(current.getIndex()) {
+        switch(current_index) {
             case 0:
                 valid_blanks = new int[]{1,4};
                 break;
@@ -233,27 +234,22 @@ public class MainActivity extends AppCompatActivity {
 
     private void switchImages() {
         int current_tag = (int) current.getView().getTag();
-        int blank_tag = (int) blank.getView().getTag();
-        int curr_index = current.getIndex();
-        int bl_index = blank.getIndex();
-        //int curr_tag = current.getTag();
-        //int bl_tag = blank.getTag();
+        int new_blank_index = current.getIndex();
+        int move_to_index = blank.getIndex();
 
-        current.getView().setImageResource(blank_tag);
-        current.getView().setTag(blank_tag);
-        current.setIndex(bl_index);
-        //current.setTag(bl_tag);
+        current.getView().setImageResource(R.drawable.blank);
+        current.getView().setTag(R.drawable.blank);
+        current.setIndex(new_blank_index);
 
         blank.getView().setImageResource(current_tag);
         blank.getView().setTag(current_tag);
-        blank.setIndex(curr_index);
-        //blank.setTag(curr_tag);
+        blank.setIndex(move_to_index);
 
-        LogCurrentAndBlank("switchImages");
+        LogCurrentAndBlank("switchImages", move_to_index);
     }
 
-    private void LogCurrentAndBlank(String origin) {
-        Log.v(origin, "current:" + current.getIndex() + ", blank:" + blank.getIndex());
+    private void LogCurrentAndBlank(String origin, int currentIndex) {
+        Log.v(origin, "current:" + currentIndex + ", blank:" + getBlank().getIndex());
     }
 
     //En klass inom en klass som gör det möjligt för denna klass att enkelt använda MainActivites alla
