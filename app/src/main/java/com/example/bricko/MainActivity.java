@@ -122,8 +122,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Square getBlank() {
+        Log.v("getBlank", String.format("Looking for %s", R.drawable.blank));
         for (Square view : views) {
             if ((int)view.getView().getTag() == R.drawable.blank) {
+                Log.v("getBlank", String.format("Found %s", view.getView().getTag()));
                 return view;
             }
         }
@@ -131,8 +133,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Square getSquare(int tag) {
+        Log.v("getSquare", String.valueOf(tag));
         for (Square view : views) {
             if ((int) view.getView().getTag() == tag) {
+                Log.v("getSquare", String.format("Found %s", view.getView().getTag()));
                 return view;
             }
         }
