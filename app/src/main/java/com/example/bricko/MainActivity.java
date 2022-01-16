@@ -123,9 +123,6 @@ public class MainActivity extends AppCompatActivity {
 
     private Square getBlank() {
         for (Square view : views) {
-//            if ((int)view.getTag() == 15) {
-//                return view;
-//            }
             if ((int)view.getView().getTag() == R.drawable.blank) {
                 return view;
             }
