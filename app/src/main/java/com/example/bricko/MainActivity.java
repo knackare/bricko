@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean allInPlace() {
         int correct_order = 0;
         for(int i = 0; i < 4; i++){
-            if(views[i].getTag() == i){
+            if(views[i].getIndex() == i){
                 correct_order++;
             }
         }
