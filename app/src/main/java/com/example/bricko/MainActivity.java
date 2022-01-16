@@ -229,8 +229,8 @@ public class MainActivity extends AppCompatActivity {
         int blank_tag = (int) blank.getView().getTag();
         int curr_index = current.getIndex();
         int bl_index = blank.getIndex();
-        int curr_tag = current.getTag();
-        int bl_tag = blank.getTag();
+        //int curr_tag = current.getTag();
+        //int bl_tag = blank.getTag();
 
         current.getView().setImageResource(blank_tag);
         current.getView().setTag(blank_tag);
